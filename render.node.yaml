@@ -17,6 +17,8 @@ services:
         sync: false
       - key: MONGODB_COLLECTION
         sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        sync: false
       - key: PDF_ENGINE
         value: python
       - key: PYTHON

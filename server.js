@@ -9,6 +9,7 @@ const HOST = "0.0.0.0";
 const ROOT_DIR = __dirname;
 const PDFCODE_DIR = path.join(ROOT_DIR, "pdfcode");
 const PDF_CONNECTOR_SCRIPT_PATH = path.join(PDFCODE_DIR, "generate_from_mock_data.py");
+const PDF_ZIP_SCRIPT_PATH = path.join(PDFCODE_DIR, "zip_generated_pdfs.py");
 const DEFAULT_PDF_LOGO_PATH = path.join(PDFCODE_DIR, "image", "extracted-000.jpg");
 const PYTHON_PACKAGES_DIR = path.join(ROOT_DIR, "python_packages");
 const ROLL_FIELD_ALIASES = ["rollNo", "University_RollNo", "universityRollNo", "RollNo", "roll_no", "UniversityRollNo"];
@@ -17,6 +18,15 @@ const ROUTE_ALIAS = "/Exam/Report/DownloadGradesheet.aspx";
 const ROUTE_PREFIX = "/Exam/Report/";
 const REQUEST_BODY_LIMIT_BYTES = 1024 * 1024;
 const PDF_ENGINE_ALLOWED_VALUES = new Set(["auto", "python", "node"]);
+const DEFAULT_CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5500",
+    "http://127.0.0.1:5500"
+];
+const CORS_ALLOWED_METHODS = "GET,POST,OPTIONS";
+const CORS_ALLOWED_HEADERS = "Content-Type, Accept";
+const CORS_EXPOSED_HEADERS = "Content-Disposition, X-PDF-Source";
 
 let mongoClientPromise = null;
 let mongoClientInstance = null;
@@ -270,6 +280,106 @@ function normalizeMongoStudentDocument(document) {
 
 loadLocalEnv();
 
+function normalizeOrigin(value) {
+    const rawValue = String(value || "").trim();
+    if (!rawValue) {
+        return "";
+    }
+
+    try {
+        return new URL(rawValue).origin;
+    } catch {
+        return "";
+    }
+}
+
+function parseCorsOrigins(rawValue) {
+    return String(rawValue || "")
+        .split(",")
+        .map(function (value) {
+            return normalizeOrigin(value);
+        })
+        .filter(Boolean);
+}
+
+function getConfiguredCorsOrigins() {
+    const configured = parseCorsOrigins(process.env.CORS_ALLOWED_ORIGINS || "");
+    return configured.length > 0 ? configured : DEFAULT_CORS_ALLOWED_ORIGINS;
+}
+
+function getRequestOrigin(req) {
+    const rawHost = String(req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim();
+    if (!rawHost) {
+        return "";
+    }
+
+    const rawProto = String(req.headers["x-forwarded-proto"] || "http").split(",")[0].trim().toLowerCase();
+    const protocol = rawProto === "http" || rawProto === "https" ? rawProto : "http";
+    return `${protocol}://${rawHost}`;
+}
+
+function appendVaryHeader(res, value) {
+    const existing = String(res.getHeader("Vary") || "").trim();
+    if (!existing) {
+        res.setHeader("Vary", value);
+        return;
+    }
+
+    const values = existing.split(",").map(function (entry) {
+        return entry.trim().toLowerCase();
+    });
+
+    if (!values.includes(String(value).toLowerCase())) {
+        res.setHeader("Vary", `${existing}, ${value}`);
+    }
+}
+
+function isCorsOriginAllowed(req, requestOrigin) {
+    const normalizedRequestOrigin = normalizeOrigin(requestOrigin);
+    if (!normalizedRequestOrigin) {
+        return false;
+    }
+
+    const sameOrigin = normalizedRequestOrigin === normalizeOrigin(getRequestOrigin(req));
+    if (sameOrigin) {
+        return true;
+    }
+
+    const allowedOrigins = getConfiguredCorsOrigins();
+    return allowedOrigins.includes(normalizedRequestOrigin);
+}
+
+function applyApiCors(req, res) {
+    const requestOrigin = String(req.headers.origin || "").trim();
+
+    if (!requestOrigin) {
+        return {
+            isBrowserRequest: false,
+            isAllowed: true,
+            normalizedOrigin: ""
+        };
+    }
+
+    appendVaryHeader(res, "Origin");
+
+    const normalizedOrigin = normalizeOrigin(requestOrigin);
+    const isAllowed = isCorsOriginAllowed(req, requestOrigin);
+
+    if (isAllowed && normalizedOrigin) {
+        res.setHeader("Access-Control-Allow-Origin", normalizedOrigin);
+        res.setHeader("Access-Control-Allow-Methods", CORS_ALLOWED_METHODS);
+        res.setHeader("Access-Control-Allow-Headers", CORS_ALLOWED_HEADERS);
+        res.setHeader("Access-Control-Expose-Headers", CORS_EXPOSED_HEADERS);
+        res.setHeader("Access-Control-Max-Age", "600");
+    }
+
+    return {
+        isBrowserRequest: true,
+        isAllowed: isAllowed,
+        normalizedOrigin: normalizedOrigin
+    };
+}
+
 let PORT = 5500;
 let PDF_ENGINE = "auto";
 
@@ -358,6 +468,15 @@ function readRequestBody(req) {
 
 function sanitizeFileName(value) {
     return String(value || "gradesheet").replace(/[^a-zA-Z0-9._-]/g, "_");
+}
+
+function buildIndexedPdfFileName(baseName, index, totalCount) {
+    const normalizedBaseName = sanitizeFileName(baseName || "gradesheet") || "gradesheet";
+    if (totalCount <= 1 || index <= 0) {
+        return `${normalizedBaseName}.pdf`;
+    }
+
+    return `${normalizedBaseName}(${index + 1}).pdf`;
 }
 
 function normalizeText(value) {
@@ -667,7 +786,7 @@ function isInvalidResultLookupMessage(message) {
     );
 }
 
-function findResultRecord(payload, dataset) {
+function findResultRecords(payload, dataset) {
     const entered = extractEnteredFields(payload);
     const students = dataset.students || [];
     const rollNo = normalizeText(entered.rollNo);
@@ -732,17 +851,28 @@ function findResultRecord(payload, dataset) {
         };
     }
 
-    const matchedRecord = detailMatches.find(function (record) {
+    const matchedRecords = detailMatches.filter(function (record) {
         const fatherMatched = matchParentName(entered.fatherName, record.fatherName);
         const motherMatched = matchParentName(entered.motherName, record.motherName);
         return fatherMatched || motherMatched;
     });
 
-    if (!matchedRecord) {
+    if (matchedRecords.length === 0) {
         return { error: "Parent name does not match record" };
     }
 
-    return { record: matchedRecord };
+    return { records: matchedRecords };
+}
+
+function findResultRecord(payload, dataset) {
+    const lookup = findResultRecords(payload, dataset);
+    if (lookup.error) {
+        return lookup;
+    }
+
+    return {
+        record: lookup.records[0]
+    };
 }
 
 function toSafeValue(value, fallback) {
@@ -814,6 +944,18 @@ function sendPdfResponse(res, fileName, pdfBuffer, sourceLabel) {
         "X-PDF-Source": sourceLabel
     });
     res.end(pdfBuffer);
+}
+
+function sendZipResponse(res, fileName, zipBuffer, sourceLabel) {
+    res.writeHead(200, {
+        "Content-Type": "application/zip",
+        "Content-Disposition": `attachment; filename="${fileName}"`,
+        "Content-Length": zipBuffer.length,
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        "X-PDF-Source": sourceLabel
+    });
+    res.end(zipBuffer);
 }
 
 async function handleResultLookup(req, res) {
@@ -903,7 +1045,7 @@ async function handlePdfDownload(req, res) {
     let lookup;
     try {
         const dataset = await readResultDataset(login.rollNo);
-        lookup = findResultRecord(payload, dataset);
+        lookup = findResultRecords(payload, dataset);
     } catch (error) {
         const message = (error && error.message) ? error.message : "Unable to fetch result data from MongoDB";
         sendApiError(res, 500, message, "DATA_SOURCE_ERROR");
@@ -921,9 +1063,8 @@ async function handlePdfDownload(req, res) {
         return;
     }
 
-    const matchedRecord = lookup.record;
     const sanitizedRollNo = sanitizeFileName(login.rollNo);
-    const fileName = sanitizedRollNo ? `${sanitizedRollNo}.pdf` : "gradesheet.pdf";
+    const baseFileName = sanitizedRollNo || "gradesheet";
 
     
     let tempDir = "";
@@ -933,51 +1074,89 @@ async function handlePdfDownload(req, res) {
         }
 
         tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "rtu-test-template-"));
-        const generatedPdfPath = path.join(tempDir, "gradesheet.pdf");
-        const mongoJsonPath = path.join(tempDir, "mongo_students.json");
+        const generatedFiles = [];
 
-        const payloadForGenerator = normalizeResultData({
-            session: matchedRecord.session || entered.session,
-            examCategory: matchedRecord.examCategory || entered.examCategory,
-            degree: matchedRecord.degree || entered.degree,
-            semester: matchedRecord.semester || entered.semester,
-            students: [matchedRecord]
-        });
+        for (let index = 0; index < lookup.records.length; index += 1) {
+            const matchedRecord = lookup.records[index];
+            const generatedPdfPath = path.join(tempDir, `gradesheet-${index + 1}.pdf`);
+            const mongoJsonPath = path.join(tempDir, `mongo_students-${index + 1}.json`);
 
-        fs.writeFileSync(mongoJsonPath, JSON.stringify(payloadForGenerator, null, 2), "utf-8");
+            const payloadForGenerator = normalizeResultData({
+                session: matchedRecord.session || entered.session,
+                examCategory: matchedRecord.examCategory || entered.examCategory,
+                degree: matchedRecord.degree || entered.degree,
+                semester: matchedRecord.semester || entered.semester,
+                students: [matchedRecord]
+            });
 
-        const scriptArgs = [
-            PDF_CONNECTOR_SCRIPT_PATH,
-            "--json",
-            mongoJsonPath,
-            "--roll",
-            login.rollNo,
-            "--father",
-            login.fatherName,
-            "--mother",
-            motherName,
-            "--session",
-            entered.session,
-            "--exam-category",
-            entered.examCategory,
-            "--degree",
-            entered.degree,
-            "--semester",
-            entered.semester,
-            "--output",
-            generatedPdfPath,
-            "--logo",
-            DEFAULT_PDF_LOGO_PATH
-        ];
+            fs.writeFileSync(mongoJsonPath, JSON.stringify(payloadForGenerator, null, 2), "utf-8");
 
-        await runPythonTemplateGenerator(scriptArgs, { cwd: ROOT_DIR, windowsHide: true });
+            const scriptArgs = [
+                PDF_CONNECTOR_SCRIPT_PATH,
+                "--json",
+                mongoJsonPath,
+                "--roll",
+                login.rollNo,
+                "--father",
+                login.fatherName,
+                "--mother",
+                motherName,
+                "--session",
+                entered.session,
+                "--exam-category",
+                entered.examCategory,
+                "--degree",
+                entered.degree,
+                "--semester",
+                entered.semester,
+                "--output",
+                generatedPdfPath,
+                "--logo",
+                DEFAULT_PDF_LOGO_PATH
+            ];
 
-        if (!fs.existsSync(generatedPdfPath)) {
-            throw new Error("Template PDF generation failed: output file not found");
+            await runPythonTemplateGenerator(scriptArgs, { cwd: ROOT_DIR, windowsHide: true });
+
+            if (!fs.existsSync(generatedPdfPath)) {
+                throw new Error("Template PDF generation failed: output file not found");
+            }
+
+            generatedFiles.push({
+                filePath: generatedPdfPath,
+                fileName: buildIndexedPdfFileName(baseFileName, index, lookup.records.length)
+            });
         }
 
-        const pdfBuffer = fs.readFileSync(generatedPdfPath);
-        sendPdfResponse(res, fileName, pdfBuffer, "python-mongodb-connector");
+        if (generatedFiles.length === 1) {
+            const onlyFile = generatedFiles[0];
+            const pdfBuffer = fs.readFileSync(onlyFile.filePath);
+            sendPdfResponse(res, onlyFile.fileName, pdfBuffer, "python-mongodb-connector");
+            return;
+        }
+
+        if (!fs.existsSync(PDF_ZIP_SCRIPT_PATH)) {
+            throw new Error("zip_generated_pdfs.py not found");
+        }
+
+        const generatedZipPath = path.join(tempDir, `${baseFileName}.zip`);
+        const zipArgs = [
+            PDF_ZIP_SCRIPT_PATH,
+            "--output",
+            generatedZipPath
+        ];
+
+        for (const generatedFile of generatedFiles) {
+            zipArgs.push("--entry", `${generatedFile.filePath}::${generatedFile.fileName}`);
+        }
+
+        await runPythonTemplateGenerator(zipArgs, { cwd: ROOT_DIR, windowsHide: true });
+
+        if (!fs.existsSync(generatedZipPath)) {
+            throw new Error("ZIP generation failed: output file not found");
+        }
+
+        const zipBuffer = fs.readFileSync(generatedZipPath);
+        sendZipResponse(res, `${baseFileName}.zip`, zipBuffer, "python-mongodb-connector-multi");
     } catch (error) {
         logError(`Python PDF generation failed: ${(error && error.message) ? error.message : "Unknown error"}`);
         const message = (error && error.message) ? error.message : "Unable to generate PDF";
@@ -1018,6 +1197,30 @@ const server = http.createServer(function (req, res) {
         const elapsed = Date.now() - startedAt;
         logInfo(`${method} ${requestPath} -> ${res.statusCode} (${elapsed}ms)`);
     });
+
+    const isApiRequest = requestPath === "/api/health" || requestPath.startsWith("/api/");
+
+    if (isApiRequest) {
+        const corsResult = applyApiCors(req, res);
+
+        if (method === "OPTIONS") {
+            if (!corsResult.isAllowed) {
+                sendApiError(res, 403, "CORS origin not allowed", "CORS_ORIGIN_DENIED");
+                return;
+            }
+
+            res.writeHead(204, {
+                "Cache-Control": "no-store"
+            });
+            res.end();
+            return;
+        }
+
+        if (corsResult.isBrowserRequest && !corsResult.isAllowed) {
+            sendApiError(res, 403, "CORS origin not allowed", "CORS_ORIGIN_DENIED");
+            return;
+        }
+    }
 
     if (method === "GET" && requestPath === "/api/health") {
         sendJson(res, 200, {
