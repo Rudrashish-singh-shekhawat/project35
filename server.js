@@ -3,7 +3,6 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { execFile } = require("child_process");
-const PDFDocument = require("pdfkit");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 
 const HOST = "0.0.0.0";
@@ -270,7 +269,6 @@ function normalizeMongoStudentDocument(document) {
 
 loadLocalEnv();
 
-const PDF_FALLBACK_TO_NODE = process.env.PDF_FALLBACK_TO_NODE !== "false";
 let PORT = 5500;
 let PDF_ENGINE = "auto";
 
@@ -798,73 +796,6 @@ function sendPdfResponse(res, fileName, pdfBuffer, sourceLabel) {
     res.end(pdfBuffer);
 }
 
-function generatePdfWithPdfKit(resultPayload) {
-    return new Promise(function (resolve, reject) {
-        const doc = new PDFDocument({ margin: 36, size: "A4" });
-        const chunks = [];
-
-        doc.on("data", function (chunk) {
-            chunks.push(chunk);
-        });
-
-        doc.on("end", function () {
-            resolve(Buffer.concat(chunks));
-        });
-
-        doc.on("error", function (error) {
-            reject(error);
-        });
-
-        doc.fontSize(14).text(resultPayload.universityName, { align: "center" });
-        doc.moveDown(0.25);
-        doc.fontSize(10).text(resultPayload.collegeName, { align: "center" });
-        doc.moveDown(0.25);
-        doc.fontSize(11).text(resultPayload.examName, { align: "center" });
-        doc.moveDown(0.75);
-
-        const metadataRows = [
-            ["Session", resultPayload.session],
-            ["Exam Category", resultPayload.examCategory],
-            ["Degree", resultPayload.degree],
-            ["Semester", resultPayload.semester],
-            ["Roll No", resultPayload.rollNo],
-            ["Enrollment No", resultPayload.enrollmentNo],
-            ["Student Name", resultPayload.studentName],
-            ["Father Name", resultPayload.fatherName],
-            ["Mother Name", resultPayload.motherName]
-        ];
-
-        doc.fontSize(10);
-        for (const [label, value] of metadataRows) {
-            doc.text(`${label}: ${toSafeValue(value, "-")}`);
-        }
-
-        doc.moveDown(0.6);
-        doc.fontSize(11).text("Subjects", { underline: true });
-        doc.moveDown(0.4);
-
-        if (!Array.isArray(resultPayload.subjects) || resultPayload.subjects.length === 0) {
-            doc.fontSize(10).text("No subject details available.");
-        } else {
-            resultPayload.subjects.forEach(function (subject, index) {
-                if (doc.y > 760) {
-                    doc.addPage();
-                }
-
-                const prefix = `${index + 1}. ${toSafeValue(subject.code, "-")} - ${toSafeValue(subject.title, "-")}`;
-                doc.fontSize(10).text(prefix);
-                doc.fontSize(9).text(`   Midterm: ${toSafeValue(subject.midterm, "-")}   Endterm: ${toSafeValue(subject.endterm, "-")}   Grade: ${toSafeValue(subject.grade, "-")}`);
-            });
-        }
-
-        doc.moveDown(0.8);
-        doc.fontSize(10).text(`Remarks: ${toSafeValue(resultPayload.remarks, "PASS")}`);
-        doc.moveDown(0.4);
-        doc.fontSize(8).fillColor("#666666").text("Generated via Node.js PDF fallback for cloud deployment compatibility.", { align: "right" });
-        doc.end();
-    });
-}
-
 async function handleResultLookup(req, res) {
     let payload;
     try {
@@ -971,21 +902,10 @@ async function handlePdfDownload(req, res) {
     }
 
     const matchedRecord = lookup.record;
-    const resultPayload = mergeRequestedFields(matchedRecord, payload);
     const sanitizedRollNo = sanitizeFileName(login.rollNo);
     const fileName = sanitizedRollNo ? `${sanitizedRollNo}.pdf` : "gradesheet.pdf";
 
-    if (PDF_ENGINE === "node") {
-        try {
-            const nodePdfBuffer = await generatePdfWithPdfKit(resultPayload);
-            sendPdfResponse(res, fileName, nodePdfBuffer, "node-pdfkit");
-        } catch (error) {
-            const message = (error && error.message) ? error.message : "Unable to generate PDF";
-            sendApiError(res, 500, message, "PDF_GENERATION_ERROR");
-        }
-        return;
-    }
-
+    
     let tempDir = "";
     try {
         if (!fs.existsSync(PDF_CONNECTOR_SCRIPT_PATH)) {
@@ -1039,25 +959,9 @@ async function handlePdfDownload(req, res) {
         const pdfBuffer = fs.readFileSync(generatedPdfPath);
         sendPdfResponse(res, fileName, pdfBuffer, "python-mongodb-connector");
     } catch (error) {
-        const allowNodeFallback = PDF_ENGINE === "auto" || PDF_FALLBACK_TO_NODE;
-
-        if (!allowNodeFallback) {
-            const message = (error && error.message) ? error.message : "Unable to generate PDF";
-            sendApiError(res, 500, message, "PDF_GENERATION_ERROR");
-            return;
-        }
-
-        logWarn(`Python PDF generation failed, switching to Node fallback: ${(error && error.message) ? error.message : "Unknown error"}`);
-
-        try {
-            const fallbackPdfBuffer = await generatePdfWithPdfKit(resultPayload);
-            sendPdfResponse(res, fileName, fallbackPdfBuffer, "node-pdfkit-fallback");
-        } catch (fallbackError) {
-            const message = (fallbackError && fallbackError.message)
-                ? fallbackError.message
-                : ((error && error.message) ? error.message : "Unable to generate PDF");
-            sendApiError(res, 500, message, "PDF_GENERATION_ERROR");
-        }
+        logError(`Python PDF generation failed: ${(error && error.message) ? error.message : "Unknown error"}`);
+        const message = (error && error.message) ? error.message : "Unable to generate PDF";
+        sendApiError(res, 500, message, "PDF_GENERATION_ERROR");
     } finally {
         if (tempDir) {
             try {
@@ -1189,7 +1093,7 @@ function shutdownServer(signalName) {
 server.on("listening", function () {
     logInfo(`Server listening on ${HOST}:${PORT}`);
     logInfo(`Primary route available at ${ROUTE_ALIAS}`);
-    logInfo(`PDF engine mode: ${PDF_ENGINE} (fallbackToNode=${PDF_FALLBACK_TO_NODE})`);
+    logInfo(`PDF engine mode: ${PDF_ENGINE} (node fallback disabled)`);
     if (cachedMongoConfig) {
         logInfo(`Mongo target: ${cachedMongoConfig.dbName}.${cachedMongoConfig.collectionName}`);
     }
