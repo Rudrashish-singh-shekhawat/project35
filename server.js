@@ -304,29 +304,55 @@ function sendApiError(res, statusCode, message, code) {
 function readRequestBody(req) {
     return new Promise(function (resolve, reject) {
         let rawBody = "";
+        let settled = false;
+
+        function fail(error) {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            reject(error);
+        }
+
+        function succeed(value) {
+            if (settled) {
+                return;
+            }
+            settled = true;
+            resolve(value);
+        }
 
         req.on("data", function (chunk) {
+            if (settled) {
+                return;
+            }
+
             rawBody += chunk;
             if (rawBody.length > REQUEST_BODY_LIMIT_BYTES) {
-                reject(new Error("Request body is too large"));
+                fail(new Error("Request body is too large"));
+                req.destroy();
             }
         });
 
         req.on("end", function () {
+            if (settled) {
+                return;
+            }
+
             if (!rawBody.trim()) {
-                resolve({});
+                succeed({});
                 return;
             }
 
             try {
-                resolve(JSON.parse(rawBody));
+                succeed(JSON.parse(rawBody));
             } catch (error) {
-                reject(new Error("Invalid JSON body"));
+                fail(new Error("Invalid JSON body"));
             }
         });
 
         req.on("error", function (error) {
-            reject(error);
+            fail(error);
         });
     });
 }
@@ -1137,7 +1163,7 @@ function shutdownServer(signalName) {
     }, 8000);
     forceExitTimer.unref();
 
-    server.close(function () {
+    function finalizeShutdown() {
         closeMongoClient()
             .catch(function (error) {
                 // Ignore shutdown-time errors while closing Mongo client.
@@ -1148,7 +1174,16 @@ function shutdownServer(signalName) {
                 logInfo("Shutdown complete.");
                 process.exit(0);
             });
-    });
+    }
+
+    try {
+        server.close(function () {
+            finalizeShutdown();
+        });
+    } catch (error) {
+        logWarn(`Server close warning: ${error.message}`);
+        finalizeShutdown();
+    }
 }
 
 server.on("listening", function () {
