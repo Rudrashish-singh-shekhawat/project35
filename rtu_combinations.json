@@ -1,0 +1,780 @@
+{
+  "2021 - 2022": {
+    "CONVOCATION": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    },
+    "EVEN SEMESTER": {
+      "B. Tech UD": [
+        "B. Tech UD IInd Sem",
+        "B. Tech UD IVth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ]
+    },
+    "EVEN SEMESTER (REVAL)": {
+      "B. Tech": [
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD VIth Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem"
+      ]
+    }
+  },
+  "2022 - 2023": {
+    "EVEN SEMESTER": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem",
+        "B. Arch VIth Sem",
+        "B. Arch Xth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD IInd Sem",
+        "B. Tech UD IVth Sem",
+        "B. Tech UD VIth Sem",
+        "B. Tech UD VIIIth Sem"
+      ],
+      "M. Arch": [
+        "M. Arch IInd Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem",
+        "MCA VIth Sem"
+      ]
+    },
+    "EVEN SEMESTER (BACK ONLY)": {
+      "B. Tech UD": [
+        "B. Tech UD IInd Sem",
+        "B. Tech UD IVth Sem"
+      ]
+    },
+    "EVEN SEMESTER (MERCY REVAL)": {
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIIIth Sem"
+      ]
+    },
+    "EVEN SEMESTER (MERCY)": {
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem"
+      ]
+    },
+    "EVEN SEMESTER (REVAL)": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem",
+        "B. Arch VIth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem"
+      ]
+    },
+    "MERCY I SEM HELD WITH II SEM": {
+      "B. Tech": [
+        "B. Tech IInd Sem"
+      ]
+    },
+    "MERCY II SEM HELD WITH I SEM": {
+      "B. Tech": [
+        "B. Tech Ist Sem"
+      ]
+    },
+    "MERCY II SEM HELD WITH I SEM (REVAL)": {
+      "B. Tech": [
+        "B. Tech IInd Sem"
+      ]
+    },
+    "ODD SEMESTER": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD Ist Sem",
+        "B. Tech UD IIIrd Sem",
+        "B. Tech UD Vth Sem",
+        "B. Tech UD VIIth Sem"
+      ],
+      "M. Arch": [
+        "M. Arch Ist Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "ODD SEMESTER (MERCY REVAL)": {
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ]
+    },
+    "ODD SEMESTER (MERCY)": {
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "ODD SEMESTER (REVAL)": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "VIII SEM BACK (REVAL)(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    },
+    "VIII SEM BACK(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    }
+  },
+  "2023 - 2024": {
+    "EVEN SEMESTER": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem",
+        "B. Arch VIth Sem",
+        "B. Arch Xth Sem"
+      ],
+      "B. Des": [
+        "B. Des IInd Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD IInd Sem",
+        "B. Tech UD IVth Sem",
+        "B. Tech UD VIth Sem",
+        "B. Tech UD VIIIth Sem"
+      ],
+      "BFA": [
+        "BFA IInd Sem"
+      ],
+      "BFAD": [
+        "BFAD IInd Sem"
+      ],
+      "BVE": [
+        "BVE IInd Sem"
+      ],
+      "M. Arch": [
+        "M. Arch IInd Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "M.TECH (PART TIME)": [
+        "M.TECH (PART TIME) IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem"
+      ]
+    },
+    "EVEN SEMESTER (MERCY REVAL)": {
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem"
+      ]
+    },
+    "EVEN SEMESTER (MERCY)": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem",
+        "MCA VIth Sem"
+      ]
+    },
+    "EVEN SEMESTER (REVAL)": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem",
+        "B. Arch VIth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD VIth Sem"
+      ],
+      "BFAD": [
+        "BFAD IInd Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem"
+      ]
+    },
+    "MERCY I SEM HELD WITH II SEM": {
+      "B. Tech": [
+        "B. Tech IInd Sem"
+      ]
+    },
+    "MERCY I SEM HELD WITH II SEM (REVAL)": {
+      "B. Tech": [
+        "B. Tech IInd Sem"
+      ]
+    },
+    "MERCY II SEM HELD WITH I SEM": {
+      "B. Tech": [
+        "B. Tech Ist Sem"
+      ]
+    },
+    "ODD SEMESTER": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Des": [
+        "B. Des Ist Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD Ist Sem",
+        "B. Tech UD IIIrd Sem",
+        "B. Tech UD Vth Sem",
+        "B. Tech UD VIIth Sem"
+      ],
+      "BFA": [
+        "BFA Ist Sem"
+      ],
+      "BFAD": [
+        "BFAD Ist Sem"
+      ],
+      "BVE": [
+        "BVE Ist Sem"
+      ],
+      "M. Arch": [
+        "M. Arch Ist Sem",
+        "M. Arch IIIrd Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "M.TECH (PART TIME)": [
+        "M.TECH (PART TIME) Ist Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "ODD SEMESTER (MERCY REVAL)": {
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "MBA": [
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "ODD SEMESTER (MERCY)": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD VIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "ODD SEMESTER (REVAL)": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "VIII SEM BACK (REVAL)(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    },
+    "VIII SEM BACK(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    }
+  },
+  "2024 - 2025": {
+    "EVEN SEMESTER": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem",
+        "B. Arch VIth Sem",
+        "B. Arch Xth Sem"
+      ],
+      "B. Des": [
+        "B. Des IInd Sem",
+        "B. Des IVth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD IInd Sem",
+        "B. Tech UD IVth Sem",
+        "B. Tech UD VIth Sem",
+        "B. Tech UD VIIIth Sem"
+      ],
+      "BBA": [
+        "BBA IInd Sem"
+      ],
+      "BCA": [
+        "BCA IInd Sem"
+      ],
+      "BFA": [
+        "BFA IInd Sem",
+        "BFA IVth Sem"
+      ],
+      "BFAD": [
+        "BFAD IInd Sem",
+        "BFAD IVth Sem"
+      ],
+      "BVE": [
+        "BVE IInd Sem",
+        "BVE IVth Sem"
+      ],
+      "M. Arch": [
+        "M. Arch IInd Sem",
+        "M. Arch IVth Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "M.TECH (PART TIME)": [
+        "M.TECH (PART TIME) IInd Sem",
+        "M.TECH (PART TIME) IVth Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem",
+        "MCA VIth Sem"
+      ]
+    },
+    "EVEN SEMESTER (REVAL)": {
+      "B. Arch": [
+        "B. Arch IInd Sem",
+        "B. Arch IVth Sem",
+        "B. Arch VIth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech IInd Sem",
+        "B. Tech IVth Sem",
+        "B. Tech VIth Sem",
+        "B. Tech VIIIth Sem"
+      ],
+      "BBA": [
+        "BBA IInd Sem"
+      ],
+      "BCA": [
+        "BCA IInd Sem"
+      ],
+      "BFAD": [
+        "BFAD IInd Sem"
+      ],
+      "M. Tech": [
+        "M. Tech IInd Sem"
+      ],
+      "MBA": [
+        "MBA IInd Sem",
+        "MBA IVth Sem"
+      ],
+      "MCA": [
+        "MCA IInd Sem",
+        "MCA IVth Sem"
+      ]
+    },
+    "ODD SEMESTER": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Des": [
+        "B. Des Ist Sem",
+        "B. Des IIIrd Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD Ist Sem",
+        "B. Tech UD IIIrd Sem",
+        "B. Tech UD Vth Sem",
+        "B. Tech UD VIIth Sem"
+      ],
+      "BBA": [
+        "BBA Ist Sem"
+      ],
+      "BCA": [
+        "BCA Ist Sem"
+      ],
+      "BFA": [
+        "BFA Ist Sem",
+        "BFA IIIrd Sem"
+      ],
+      "BFAD": [
+        "BFAD Ist Sem",
+        "BFAD IIIrd Sem"
+      ],
+      "BVE": [
+        "BVE Ist Sem",
+        "BVE IIIrd Sem"
+      ],
+      "M. Arch": [
+        "M. Arch IIIrd Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "M.TECH (PART TIME)": [
+        "M.TECH (PART TIME) IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem",
+        "MCA Vth Sem"
+      ]
+    },
+    "ODD SEMESTER (PART-TIME)": {
+      "M. Tech": [
+        "M. Tech IIIrd Sem"
+      ]
+    },
+    "ODD SEMESTER (REVAL)": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Des": [
+        "B. Des IIIrd Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "BBA": [
+        "BBA Ist Sem"
+      ],
+      "BCA": [
+        "BCA Ist Sem"
+      ],
+      "BFAD": [
+        "BFAD Ist Sem"
+      ],
+      "M. Tech": [
+        "M. Tech Ist Sem",
+        "M. Tech IIIrd Sem"
+      ],
+      "MBA": [
+        "MBA Ist Sem",
+        "MBA IIIrd Sem"
+      ],
+      "MCA": [
+        "MCA Ist Sem",
+        "MCA IIIrd Sem"
+      ]
+    },
+    "VIII SEM BACK (REVAL)(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    },
+    "VIII SEM BACK(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    }
+  },
+  "2025 - 2026": {
+    "ODD SEMESTER": {
+      "B. Arch": [
+        "B. Arch Ist Sem",
+        "B. Arch IIIrd Sem",
+        "B. Arch Vth Sem",
+        "B. Arch VIIth Sem",
+        "B. Arch IXth Sem"
+      ],
+      "B. Des": [
+        "B. Des Vth Sem"
+      ],
+      "B. Tech": [
+        "B. Tech Ist Sem",
+        "B. Tech IIIrd Sem",
+        "B. Tech Vth Sem",
+        "B. Tech VIIth Sem"
+      ],
+      "B. Tech UD": [
+        "B. Tech UD Ist Sem",
+        "B. Tech UD IIIrd Sem",
+        "B. Tech UD Vth Sem",
+        "B. Tech UD VIIth Sem"
+      ],
+      "BFA": [
+        "BFA Vth Sem"
+      ],
+      "BFAD": [
+        "BFAD Vth Sem"
+      ],
+      "BVE": [
+        "BVE Vth Sem"
+      ],
+      "MBA": [
+        "MBA IIIrd Sem"
+      ]
+    },
+    "VIII SEM BACK (REVAL)(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    },
+    "VIII SEM BACK(HELD WITH ODD SEM)": {
+      "B. Tech": [
+        "B. Tech VIIIth Sem"
+      ]
+    }
+  }
+}

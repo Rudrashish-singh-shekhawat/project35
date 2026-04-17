@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log*
+.git
+.gitignore
+.vscode
+__pycache__/
+pdfcode/__pycache__/
+pdfcode/_tmp_alignment_check.pdf
+*.log

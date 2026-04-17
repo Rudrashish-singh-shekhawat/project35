@@ -1,0 +1,379 @@
+\documentclass{article}
+\usepackage[paperwidth=595bp,paperheight=842bp,margin=0bp,noheadfoot]{geometry}
+\usepackage{fontspec}
+\setmainfont{Arial}
+\usepackage{graphicx}
+\usepackage{tikz}
+\pagestyle{empty}
+% ---- TikZ/text helpers --------------------------------------------------------
+% Coordinate system used below:
+% - origin: lower-left corner of the page (current page.south west)
+% - units: big points (bp) via x=1bp,y=1bp
+% The content is a fixed-layout overlay (typical PDF-to-TikZ extraction).
+\tikzset{
+	gridThin/.style={line width=0.500bp},
+	gridThick/.style={line width=0.800bp},
+}
+
+% Places a text run at an absolute (x,y) position.
+% Args: x, y, font switch (e.g. \bfseries), font size (bp), box width (bp), text.
+\newcommand{\PdfWord}[6]{%
+	\node[anchor=base west,inner sep=0pt,outer sep=0pt,text depth=0pt] at (#1,#2)
+	{{#3\fontsize{#4bp}{#4bp}\selectfont\makebox[#5bp][l]{#6}}};%
+}
+
+% Common x-positions used by the table/grid.
+\def\XLeftThin{8.250}
+\def\XLeftThick{8.400}
+\def\XRight{586.750}
+\def\XTopLeft{8.000}
+\def\XTopSplit{65.900}
+\def\XTopRight{587.000}
+\begin{document}
+	\thispagestyle{empty}
+	\leavevmode
+	\begin{tikzpicture}[remember picture,overlay,x=1bp,y=1bp]
+		\begin{scope}[shift={(current page.south west)}]
+			% ===== Grid / border lines =====================================================
+			% Top frame
+			\draw[gridThin] (\XLeftThin,834.000) -- (\XLeftThin,766.710);
+			\draw[gridThin] (\XRight,834.000) -- (\XRight,794.000);
+			\draw[gridThin] (\XTopLeft,833.750) -- (\XTopSplit,833.750);
+			\draw[gridThin] (\XTopSplit,833.750) -- (\XTopRight,833.750);
+			\draw[gridThin] (\XRight,794.000) -- (\XRight,766.710);
+			
+			% Left thick vertical (header + course table), right thin vertical.
+			\foreach \yA/\yB in {
+				766.710/758.710,
+				758.710/750.710,
+				750.710/733.710,
+				733.710/716.710,
+				716.710/699.710,
+				699.710/675.710,
+				675.710/658.710,
+				658.710/641.710,
+				641.710/624.710,
+				624.710/607.710,
+				607.710/590.710,
+				590.710/573.710,
+				573.710/556.710,
+				556.710/539.710,
+				539.710/522.710,
+				522.710/505.710,
+				505.710/488.710
+			} {
+				\draw[gridThick] (\XLeftThick,\yA) -- (\XLeftThick,\yB);
+				\draw[gridThin]  (\XRight,\yA) -- (\XRight,\yB);
+			}
+			
+			% Lower block border
+			\draw[gridThin] (\XLeftThin,488.710) -- (\XLeftThin,448.710);
+			\draw[gridThin] (\XRight,488.710) -- (\XRight,448.710);
+			\draw[gridThin] (\XTopLeft,448.960) -- (\XTopRight,448.960);
+			\draw[gridThin] (8.250,448.710) -- (8.250,431.710);
+			\draw[gridThin] (347.160,448.710) -- (347.160,431.710);
+			\draw[gridThin] (347.660,448.710) -- (347.660,431.710);
+			\draw[gridThin] (586.750,448.710) -- (586.750,431.710);
+			\draw[gridThin] (8.000,431.960) -- (347.410,431.960);
+			\draw[gridThin] (347.410,431.960) -- (587.000,431.960);
+			\draw[gridThin] (8.250,431.710) -- (8.250,415.710);
+			\draw[gridThin] (23.900,431.710) -- (23.900,415.710);
+			\draw[gridThin] (571.600,431.710) -- (571.600,415.710);
+			\draw[gridThin] (586.750,431.710) -- (586.750,415.710);
+			\draw[gridThin] (23.650,415.960) -- (571.350,415.960);
+			\draw[gridThin] (8.250,415.710) -- (8.250,399.710);
+			\draw[gridThin] (23.900,415.710) -- (23.900,399.710);
+			\draw[gridThin] (571.600,415.710) -- (571.600,399.710);
+			\draw[gridThin] (586.750,415.710) -- (586.750,399.710);
+			\draw[gridThin] (8.250,399.710) -- (8.250,383.710);
+			\draw[gridThin] (23.900,399.710) -- (23.900,383.710);
+			\draw[gridThin] (571.600,399.710) -- (571.600,383.710);
+			\draw[gridThin] (586.750,399.710) -- (586.750,383.710);
+			\draw[gridThin] (8.250,383.710) -- (8.250,367.710);
+			\draw[gridThin] (23.900,383.710) -- (23.900,367.710);
+			\draw[gridThin] (571.600,383.710) -- (571.600,367.710);
+			\draw[gridThin] (586.750,383.710) -- (586.750,367.710);
+			\draw[gridThin] (8.250,367.710) -- (8.250,351.710);
+			\draw[gridThin] (23.900,367.710) -- (23.900,351.710);
+			\draw[gridThin] (571.600,367.710) -- (571.600,351.710);
+			\draw[gridThin] (586.750,367.710) -- (586.750,351.710);
+			\draw[gridThin] (8.250,351.710) -- (8.250,335.710);
+			\draw[gridThin] (23.900,351.710) -- (23.900,335.710);
+			\draw[gridThin] (571.600,351.710) -- (571.600,335.710);
+			\draw[gridThin] (586.750,351.710) -- (586.750,335.710);
+			\draw[gridThin] (8.250,335.710) -- (8.250,311.710);
+			\draw[gridThin] (23.900,335.710) -- (23.900,311.710);
+			\draw[gridThin] (571.600,335.710) -- (571.600,311.710);
+			\draw[gridThin] (586.750,335.710) -- (586.750,311.710);
+			\draw[gridThin] (8.250,311.710) -- (8.250,303.710);
+			\draw[gridThin] (23.900,311.710) -- (23.900,303.710);
+			\draw[gridThin] (571.600,311.710) -- (571.600,303.710);
+			\draw[gridThin] (586.750,311.710) -- (586.750,303.710);
+			\draw[gridThin] (23.650,303.960) -- (571.350,303.960);
+			\draw[gridThin] (8.250,303.710) -- (8.250,295.710);
+			\draw[gridThin] (586.750,303.710) -- (586.750,295.710);
+			\draw[gridThin] (8.000,295.960) -- (587.000,295.960);
+			% ===== Logo ==================================================================
+			\node[anchor=south west,inner sep=0pt,outer sep=0pt] at (10.000,770.710)
+			{\includegraphics[width=70.000bp,height=59.290bp]{image/extracted-000.jpg}};
+			
+			% ===== Header =================================================================
+			\PdfWord{135.890}{804.860}{\bfseries}{20.000}{123.320}{RAJASTHAN}
+			\PdfWord{270.330}{804.860}{\bfseries}{20.000}{115.540}{TECHNICAL}
+			\PdfWord{396.990}{804.860}{\bfseries}{20.000}{120.020}{UNIVERSITY}
+			\PdfWord{309.450}{782.516}{\bfseries}{12.000}{33.996}{KOTA}
+			\PdfWord{206.360}{759.054}{}{8.000}{7.560}{B.}
+			\PdfWord{216.144}{759.054}{}{8.000}{17.784}{Tech}
+			\PdfWord{238.376}{759.054}{}{8.000}{5.336}{V}
+			\PdfWord{248.160}{759.054}{}{8.000}{17.336}{SEM}
+			\PdfWord{269.944}{759.054}{}{8.000}{20.000}{MAIN}
+			\PdfWord{294.392}{759.054}{}{8.000}{22.672}{EXAM}
+			\PdfWord{323.736}{759.054}{}{8.000}{17.792}{2026}
+			\PdfWord{345.976}{759.054}{}{8.000}{42.664}{(GRADING)}
+			\PdfWord{248.600}{751.054}{}{8.000}{34.232}{(Powered}
+			\PdfWord{285.056}{751.054}{}{8.000}{8.448}{by}
+			\PdfWord{295.728}{751.054}{}{8.000}{50.672}{www.rtu.ac.in)}
+			\PdfWord{12.000}{738.097}{\bfseries}{9.000}{32.508}{College}
+			\PdfWord{47.010}{738.097}{\bfseries}{9.000}{27.504}{Name:}
+			\PdfWord{109.830}{738.097}{}{9.000}{54.009}{UNIVERSITY}
+			\PdfWord{166.341}{738.097}{}{9.000}{64.503}{DEPARTMENT,}
+			\PdfWord{233.346}{738.097}{}{9.000}{53.505}{RAJASTHAN}
+			\PdfWord{289.353}{738.097}{}{9.000}{51.003}{TECHNICAL}
+			\PdfWord{342.858}{738.097}{}{9.000}{56.511}{UNIVERSITY,}
+			\PdfWord{401.871}{738.097}{}{9.000}{24.507}{KOTA}
+			% ===== Student info ===========================================================
+			\PdfWord{12.000}{721.097}{\bfseries}{9.000}{17.001}{Roll}
+			\PdfWord{31.503}{721.097}{\bfseries}{9.000}{11.997}{No}
+			\PdfWord{46.002}{721.097}{\bfseries}{9.000}{2.997}{:}
+			\PdfWord{109.830}{721.097}{}{9.000}{56.520}{23EUCPC001}
+			\PdfWord{269.550}{721.097}{\bfseries}{9.000}{47.007}{Enrollment}
+			\PdfWord{319.059}{721.097}{\bfseries}{9.000}{11.997}{No}
+			\PdfWord{333.558}{721.097}{\bfseries}{9.000}{2.997}{:}
+			\PdfWord{389.340}{721.097}{}{9.000}{85.032}{23E1UCPCM30P001}
+			\PdfWord{12.000}{704.097}{\bfseries}{9.000}{24.507}{Name}
+			\PdfWord{39.009}{704.097}{\bfseries}{9.000}{2.997}{:}
+			\PdfWord{109.830}{704.097}{}{9.000}{36.999}{CHETAN}
+			\PdfWord{149.331}{704.097}{}{9.000}{32.499}{SUMAN}
+			\PdfWord{269.550}{704.097}{\bfseries}{9.000}{34.650}{Father's}
+			\PdfWord{306.702}{704.097}{\bfseries}{9.000}{24.507}{Name}
+			\PdfWord{333.711}{704.097}{\bfseries}{9.000}{2.997}{:}
+			\PdfWord{389.340}{704.097}{}{9.000}{22.500}{NEMI}
+			\PdfWord{414.342}{704.097}{}{9.000}{31.995}{CHAND}
+			\PdfWord{448.839}{704.097}{}{9.000}{32.499}{SUMAN}
+			% ===== Course table ===========================================================
+			\PdfWord{12.000}{676.097}{\bfseries}{9.000}{38.502}{COURSE}
+			\PdfWord{53.004}{676.097}{\bfseries}{9.000}{25.002}{TITLE}
+			\PdfWord{208.510}{676.097}{\bfseries}{9.000}{38.502}{COURSE}
+			\PdfWord{249.514}{676.097}{\bfseries}{9.000}{26.001}{CODE}
+			\PdfWord{291.230}{676.097}{\bfseries}{9.000}{85.986}{MARKS1(MIDTERM)}
+			\PdfWord{390.490}{676.097}{\bfseries}{9.000}{88.488}{MARKS2(ENDTERM)}
+			\PdfWord{521.120}{676.097}{\bfseries}{9.000}{32.499}{GRADE}
+			
+			\PdfWord{12.000}{663.097}{}{9.000}{57.519}{Environmental}
+			\PdfWord{72.021}{663.097}{}{9.000}{34.515}{Pollution}
+			\PdfWord{109.038}{663.097}{}{9.000}{29.007}{Control}
+			\PdfWord{208.510}{663.097}{}{9.000}{35.514}{5PC3-01}
+			\PdfWord{333.850}{663.097}{}{9.000}{10.008}{23}
+			\PdfWord{433.110}{663.097}{}{9.000}{10.008}{41}
+			\PdfWord{534.370}{663.097}{}{9.000}{6.003}{A}
+			\PdfWord{12.000}{646.097}{}{9.000}{37.503}{Chemical}
+			\PdfWord{52.005}{646.097}{}{9.000}{35.514}{Reaction}
+			\PdfWord{90.021}{646.097}{}{9.000}{48.024}{Engineering}
+			\PdfWord{140.547}{646.097}{}{9.000}{5.499}{-I}
+			\PdfWord{208.510}{646.097}{}{9.000}{35.514}{5PC4-02}
+			\PdfWord{333.850}{646.097}{}{9.000}{10.008}{16}
+			\PdfWord{433.110}{646.097}{}{9.000}{10.008}{33}
+			\PdfWord{534.120}{646.097}{}{9.000}{6.498}{C}
+			\PdfWord{12.000}{629.097}{}{9.000}{21.501}{Mass}
+			\PdfWord{36.003}{629.097}{}{9.000}{33.507}{Transfer}
+			\PdfWord{72.012}{629.097}{}{9.000}{8.001}{-II}
+			\PdfWord{208.510}{629.097}{}{9.000}{35.514}{5PC4-03}
+			\PdfWord{336.360}{629.097}{}{9.000}{5.004}{0}
+			\PdfWord{433.110}{629.097}{}{9.000}{10.008}{48}
+			\PdfWord{534.120}{629.097}{}{9.000}{6.498}{D}
+			\PdfWord{12.000}{612.097}{}{9.000}{32.508}{Process}
+			\PdfWord{47.010}{612.097}{}{9.000}{43.020}{Equipment}
+			\PdfWord{92.532}{612.097}{}{9.000}{28.008}{Design}
+			\PdfWord{123.042}{612.097}{}{9.000}{5.499}{-I}
+			\PdfWord{208.510}{612.097}{}{9.000}{35.514}{5PC4-04}
+			\PdfWord{333.850}{612.097}{}{9.000}{10.008}{22}
+			\PdfWord{433.110}{612.097}{}{9.000}{10.008}{38}
+			\PdfWord{531.740}{612.097}{}{9.000}{11.259}{B+}
+			\PdfWord{12.000}{595.097}{}{9.000}{57.015}{Petrochemical}
+			\PdfWord{71.517}{595.097}{}{9.000}{46.521}{Technology}
+			\PdfWord{208.510}{595.097}{}{9.000}{35.514}{5PC4-05}
+			\PdfWord{333.850}{595.097}{}{9.000}{10.008}{14}
+			\PdfWord{433.110}{595.097}{}{9.000}{10.008}{40}
+			\PdfWord{531.490}{595.097}{}{9.000}{11.754}{C+}
+			\PdfWord{12.000}{578.097}{}{9.000}{37.503}{Chemical}
+			\PdfWord{52.005}{578.097}{}{9.000}{35.514}{Reaction}
+			\PdfWord{90.021}{578.097}{}{9.000}{48.024}{Engineering}
+			\PdfWord{140.547}{578.097}{}{9.000}{20.511}{Lab-I}
+			\PdfWord{208.510}{578.097}{}{9.000}{35.514}{5PC4-21}
+			\PdfWord{333.850}{578.097}{}{9.000}{10.008}{47}
+			\PdfWord{433.110}{578.097}{}{9.000}{10.008}{24}
+			\PdfWord{531.740}{578.097}{}{9.000}{11.259}{A+}
+			\PdfWord{12.000}{561.097}{}{9.000}{21.501}{Mass}
+			\PdfWord{36.003}{561.097}{}{9.000}{33.507}{Transfer}
+			\PdfWord{72.012}{561.097}{}{9.000}{15.012}{Lab}
+			\PdfWord{89.526}{561.097}{}{9.000}{10.008}{\textendash{}II}
+			\PdfWord{208.510}{561.097}{}{9.000}{35.514}{5PC4-22}
+			\PdfWord{333.850}{561.097}{}{9.000}{10.008}{36}
+			\PdfWord{433.110}{561.097}{}{9.000}{10.008}{30}
+			\PdfWord{534.370}{561.097}{}{9.000}{6.003}{B}
+			\PdfWord{12.000}{544.097}{}{9.000}{57.519}{Environmental}
+			\PdfWord{72.021}{544.097}{}{9.000}{48.024}{Engineering}
+			\PdfWord{122.547}{544.097}{}{9.000}{15.012}{Lab}
+			\PdfWord{208.510}{544.097}{}{9.000}{35.514}{5PC4-23}
+			\PdfWord{333.850}{544.097}{}{9.000}{10.008}{30}
+			\PdfWord{433.110}{544.097}{}{9.000}{10.008}{20}
+			\PdfWord{531.490}{544.097}{}{9.000}{11.754}{D+}
+			\PdfWord{12.000}{527.097}{}{9.000}{29.007}{Natural}
+			\PdfWord{43.509}{527.097}{}{9.000}{16.506}{Gas}
+			\PdfWord{62.517}{527.097}{}{9.000}{48.024}{Engineering}
+			\PdfWord{208.510}{527.097}{}{9.000}{35.514}{5PC5-11}
+			\PdfWord{333.850}{527.097}{}{9.000}{10.008}{14}
+			\PdfWord{433.110}{527.097}{}{9.000}{10.008}{46}
+			\PdfWord{531.740}{527.097}{}{9.000}{11.259}{A+}
+			\PdfWord{12.000}{510.097}{}{9.000}{36.513}{Industrial}
+			\PdfWord{51.015}{510.097}{}{9.000}{32.508}{Training}
+			\PdfWord{208.510}{510.097}{}{9.000}{35.514}{5PC7-30}
+			\PdfWord{333.850}{510.097}{}{9.000}{10.008}{35}
+			\PdfWord{433.110}{510.097}{}{9.000}{10.008}{27}
+			\PdfWord{531.740}{510.097}{}{9.000}{11.259}{B+}
+			\PdfWord{12.000}{493.097}{}{9.000}{23.499}{Music}
+			\PdfWord{208.510}{493.097}{}{9.000}{28.008}{FEC26}
+			\PdfWord{433.110}{493.097}{}{9.000}{10.008}{68}
+			\PdfWord{531.740}{493.097}{}{9.000}{11.259}{B+}
+			% ===== Remarks / instructions =================================================
+			\PdfWord{12.000}{436.097}{}{9.000}{44.505}{REMARKS}
+			\PdfWord{59.007}{436.097}{}{9.000}{2.502}{:}
+			\PdfWord{351.410}{436.097}{}{9.000}{24.012}{PASS}
+			\PdfWord{25.650}{420.054}{\bfseries}{8.000}{41.336}{Instruction}
+			\PdfWord{69.210}{420.054}{\bfseries}{8.000}{2.664}{:}
+			\PdfWord{25.650}{404.054}{\bfseries}{8.000}{6.672}{1.}
+			\PdfWord{34.546}{404.054}{\bfseries}{8.000}{16.448}{This}
+			\PdfWord{53.218}{404.054}{\bfseries}{8.000}{6.672}{is}
+			\PdfWord{62.114}{404.054}{\bfseries}{8.000}{15.560}{web}
+			\PdfWord{79.898}{404.054}{\bfseries}{8.000}{23.120}{based}
+			\PdfWord{105.242}{404.054}{\bfseries}{8.000}{24.008}{result.}
+			\PdfWord{131.474}{404.054}{\bfseries}{8.000}{36.888}{Authentic}
+			\PdfWord{170.586}{404.054}{\bfseries}{8.000}{21.784}{result}
+			\PdfWord{194.594}{404.054}{\bfseries}{8.000}{18.232}{shall}
+			\PdfWord{215.050}{404.054}{\bfseries}{8.000}{9.336}{be}
+			\PdfWord{226.610}{404.054}{\bfseries}{8.000}{42.680}{considered}
+			\PdfWord{271.514}{404.054}{\bfseries}{8.000}{7.112}{in}
+			\PdfWord{280.850}{404.054}{\bfseries}{8.000}{42.680}{mark-sheet}
+			\PdfWord{325.754}{404.054}{\bfseries}{8.000}{25.344}{issued}
+			\PdfWord{353.322}{404.054}{\bfseries}{8.000}{9.336}{by}
+			\PdfWord{364.882}{404.054}{\bfseries}{8.000}{18.664}{RTU.}
+			\PdfWord{25.650}{388.054}{\bfseries}{8.000}{6.672}{2.}
+			\PdfWord{34.546}{388.054}{\bfseries}{8.000}{14.224}{The}
+			\PdfWord{50.994}{388.054}{\bfseries}{8.000}{14.224}{due}
+			\PdfWord{67.442}{388.054}{\bfseries}{8.000}{16.448}{date}
+			\PdfWord{86.114}{388.054}{\bfseries}{8.000}{7.552}{to}
+			\PdfWord{95.890}{388.054}{\bfseries}{8.000}{26.224}{submit}
+			\PdfWord{124.338}{388.054}{\bfseries}{8.000}{9.336}{an}
+			\PdfWord{135.898}{388.054}{\bfseries}{8.000}{23.560}{online}
+			\PdfWord{161.682}{388.054}{\bfseries}{8.000}{18.672}{copy}
+			\PdfWord{182.578}{388.054}{\bfseries}{8.000}{17.344}{view}
+			\PdfWord{202.146}{388.054}{\bfseries}{8.000}{14.224}{and}
+			\PdfWord{218.594}{388.054}{\bfseries}{8.000}{42.680}{revaluation}
+			\PdfWord{263.498}{388.054}{\bfseries}{8.000}{17.776}{form}
+			\PdfWord{283.498}{388.054}{\bfseries}{8.000}{30.216}{through}
+			\PdfWord{315.938}{388.054}{\bfseries}{8.000}{12.000}{the}
+			\PdfWord{330.162}{388.054}{\bfseries}{8.000}{27.568}{college}
+			\PdfWord{359.954}{388.054}{\bfseries}{8.000}{6.672}{is}
+			\PdfWord{368.850}{388.054}{\bfseries}{8.000}{33.336}{FIFTEEN}
+			\PdfWord{404.410}{388.054}{\bfseries}{8.000}{18.232}{days}
+			\PdfWord{424.866}{388.054}{\bfseries}{8.000}{17.336}{after}
+			\PdfWord{444.426}{388.054}{\bfseries}{8.000}{12.000}{the}
+			\PdfWord{458.650}{388.054}{\bfseries}{8.000}{16.448}{date}
+			\PdfWord{477.322}{388.054}{\bfseries}{8.000}{26.232}{results}
+			\PdfWord{505.778}{388.054}{\bfseries}{8.000}{12.008}{are}
+			\PdfWord{520.010}{388.054}{\bfseries}{8.000}{44.896}{announced.}
+			\PdfWord{25.650}{372.054}{\bfseries}{8.000}{6.672}{3.}
+			\PdfWord{34.546}{372.054}{\bfseries}{8.000}{34.224}{Students}
+			\PdfWord{70.994}{372.054}{\bfseries}{8.000}{13.784}{can}
+			\PdfWord{87.002}{372.054}{\bfseries}{8.000}{20.896}{apply}
+			\PdfWord{110.122}{372.054}{\bfseries}{8.000}{18.672}{copy}
+			\PdfWord{131.018}{372.054}{\bfseries}{8.000}{17.344}{view}
+			\PdfWord{150.586}{372.054}{\bfseries}{8.000}{10.664}{for}
+			\PdfWord{163.474}{372.054}{\bfseries}{8.000}{8.896}{all}
+			\PdfWord{174.594}{372.054}{\bfseries}{8.000}{12.000}{the}
+			\PdfWord{188.818}{372.054}{\bfseries}{8.000}{24.448}{theory}
+			\PdfWord{215.490}{372.054}{\bfseries}{8.000}{34.680}{subjects.}
+			\PdfWord{252.394}{372.054}{\bfseries}{8.000}{14.224}{The}
+			\PdfWord{268.842}{372.054}{\bfseries}{8.000}{42.680}{revaluation}
+			\PdfWord{313.746}{372.054}{\bfseries}{8.000}{6.672}{is}
+			\PdfWord{322.642}{372.054}{\bfseries}{8.000}{36.448}{permitted}
+			\PdfWord{361.314}{372.054}{\bfseries}{8.000}{7.112}{in}
+			\PdfWord{370.650}{372.054}{\bfseries}{8.000}{37.344}{maximum}
+			\PdfWord{410.218}{372.054}{\bfseries}{8.000}{22.664}{FOUR}
+			\PdfWord{435.106}{372.054}{\bfseries}{8.000}{24.448}{theory}
+			\PdfWord{461.778}{372.054}{\bfseries}{8.000}{28.456}{papers.}
+			\PdfWord{25.650}{356.054}{\bfseries}{8.000}{6.672}{4.}
+			\PdfWord{34.546}{356.054}{\bfseries}{8.000}{29.776}{Student}
+			\PdfWord{66.546}{356.054}{\bfseries}{8.000}{13.784}{can}
+			\PdfWord{82.554}{356.054}{\bfseries}{8.000}{20.896}{apply}
+			\PdfWord{105.674}{356.054}{\bfseries}{8.000}{10.664}{for}
+			\PdfWord{118.562}{356.054}{\bfseries}{8.000}{17.344}{view}
+			\PdfWord{138.130}{356.054}{\bfseries}{8.000}{26.232}{his/her}
+			\PdfWord{166.586}{356.054}{\bfseries}{8.000}{27.568}{answer}
+			\PdfWord{196.378}{356.054}{\bfseries}{8.000}{41.776}{book(Copy}
+			\PdfWord{240.378}{356.054}{\bfseries}{8.000}{20.896}{View)}
+			\PdfWord{263.498}{356.054}{\bfseries}{8.000}{58.240}{simultaneously}
+			\PdfWord{323.962}{356.054}{\bfseries}{8.000}{16.000}{with}
+			\PdfWord{342.186}{356.054}{\bfseries}{8.000}{42.680}{revaluation}
+			\PdfWord{387.090}{356.054}{\bfseries}{8.000}{7.552}{of}
+			\PdfWord{396.866}{356.054}{\bfseries}{8.000}{27.568}{answer}
+			\PdfWord{426.658}{356.054}{\bfseries}{8.000}{19.112}{book}
+			\PdfWord{447.994}{356.054}{\bfseries}{8.000}{7.112}{in}
+			\PdfWord{457.330}{356.054}{\bfseries}{8.000}{20.456}{same}
+			\PdfWord{480.010}{356.054}{\bfseries}{8.000}{30.232}{subject.}
+			\PdfWord{25.650}{340.054}{\bfseries}{8.000}{6.672}{5.}
+			\PdfWord{34.546}{340.054}{\bfseries}{8.000}{18.664}{After}
+			\PdfWord{55.434}{340.054}{\bfseries}{8.000}{40.008}{inspection}
+			\PdfWord{97.666}{340.054}{\bfseries}{8.000}{7.552}{of}
+			\PdfWord{107.442}{340.054}{\bfseries}{8.000}{27.568}{answer}
+			\PdfWord{137.234}{340.054}{\bfseries}{8.000}{29.776}{book(S)}
+			\PdfWord{169.234}{340.054}{\bfseries}{8.000}{2.224}{,}
+			\PdfWord{173.682}{340.054}{\bfseries}{8.000}{24.000}{offline}
+			\PdfWord{199.906}{340.054}{\bfseries}{8.000}{32.888}{(Manual)}
+			\PdfWord{235.018}{340.054}{\bfseries}{8.000}{42.680}{revaluation}
+			\PdfWord{279.922}{340.054}{\bfseries}{8.000}{42.232}{application}
+			\PdfWord{324.378}{340.054}{\bfseries}{8.000}{17.776}{form}
+			\PdfWord{344.378}{340.054}{\bfseries}{8.000}{12.896}{will}
+			\PdfWord{359.498}{340.054}{\bfseries}{8.000}{12.440}{not}
+			\PdfWord{374.162}{340.054}{\bfseries}{8.000}{9.336}{be}
+			\PdfWord{385.722}{340.054}{\bfseries}{8.000}{36.904}{accepted.}
+			\PdfWord{25.650}{324.054}{\bfseries}{8.000}{6.672}{6.}
+			\PdfWord{34.546}{324.054}{\bfseries}{8.000}{43.120}{Candidates}
+			\PdfWord{79.890}{324.054}{\bfseries}{8.000}{32.896}{applying}
+			\PdfWord{115.010}{324.054}{\bfseries}{8.000}{10.664}{for}
+			\PdfWord{127.898}{324.054}{\bfseries}{8.000}{40.008}{inspection}
+			\PdfWord{170.130}{324.054}{\bfseries}{8.000}{7.552}{of}
+			\PdfWord{179.906}{324.054}{\bfseries}{8.000}{53.792}{answer-books}
+			\PdfWord{235.922}{324.054}{\bfseries}{8.000}{12.008}{are}
+			\PdfWord{250.154}{324.054}{\bfseries}{8.000}{16.008}{also}
+			\PdfWord{268.386}{324.054}{\bfseries}{8.000}{32.008}{required}
+			\PdfWord{302.618}{324.054}{\bfseries}{8.000}{7.552}{to}
+			\PdfWord{312.394}{324.054}{\bfseries}{8.000}{20.896}{apply}
+			\PdfWord{335.514}{324.054}{\bfseries}{8.000}{58.240}{simultaneously}
+			\PdfWord{395.978}{324.054}{\bfseries}{8.000}{10.664}{for}
+			\PdfWord{408.866}{324.054}{\bfseries}{8.000}{45.344}{Revaluation}
+			\PdfWord{456.434}{324.054}{\bfseries}{8.000}{24.448}{before}
+			\PdfWord{483.106}{324.054}{\bfseries}{8.000}{13.784}{last}
+			\PdfWord{499.114}{324.054}{\bfseries}{8.000}{16.448}{date}
+			\PdfWord{517.786}{324.054}{\bfseries}{8.000}{8.896}{as}
+			\PdfWord{25.650}{316.054}{\bfseries}{8.000}{42.672}{announced}
+			\PdfWord{70.546}{316.054}{\bfseries}{8.000}{9.336}{by}
+			\PdfWord{82.106}{316.054}{\bfseries}{8.000}{12.000}{the}
+			\PdfWord{96.330}{316.054}{\bfseries}{8.000}{40.904}{University.}
+			% ===== Footer =================================================================
+			\PdfWord{250.000}{3.430}{}{10.000}{23.350}{Page}
+			\PdfWord{276.130}{3.430}{}{10.000}{5.560}{1}
+		\end{scope}
+	\end{tikzpicture}
+	\null
+\end{document}

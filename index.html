@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />
+    <meta name="description" content="Check your latest Rajasthan Technical University (RTU) semester results quickly. Enter your roll number to view your B.Tech grades.">
+    <title>RTU</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+    <link href="https://rtu.sumsraj.com/App_Themes/skyblue/default.css" type="text/css" rel="stylesheet" />
+    <link href="https://rtu.sumsraj.com/App_Themes/skyblue/GridviewScroll.css" type="text/css" rel="stylesheet" />
+    <link href="https://rtu.sumsraj.com/App_Themes/skyblue/stylesheet.css" type="text/css" rel="stylesheet" />
+    <style>
+        .brdcums {
+            background: #e8f1f8;
+            width: 98%;
+            float: left;
+            padding: 5px 1%;
+            color: #000;
+        }
+
+        .brdcums span {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .brdcums span:hover {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body class="backgroundmaster">
+    <form name="resultDownloadForm" method="post" action="#" id="resultDownloadForm" autocomplete="off">
+        <div class="maincontent">
+            <table border="0" cellpadding="0" cellspacing="0" class="master-border" width="100%">
+                <tr>
+                    <td valign="top">
+                        <div class="header" style="padding: 5px;">
+                            <h1 class="logo">
+                                <img src="https://rtu.sumsraj.com/App_Themes/skyblue/images/logo-white.png" alt="RTU" />
+                            </h1>
+                            <table border="0" cellpadding="0" cellspacing="0" align="right" width="50%" class="glcl">
+                                <tr>
+                                    <td align="right" valign="top"></td>
+                                    <td align="right">
+                                        <div class="masterlogout-detail"></div>
+                                    </td>
+                                    <td align="right"></td>
+                                    <td align="right"></td>
+                                    <td align="right">
+                                        <div class="masterlogout-detail">
+                                            <span id="logoutWrapper"><a id="logoutLink" class="btn btn-sm btn-warning" href="#">Logout</a></span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="nav"></div>
+                        <div id="body">
+                            <div class="body-form">
+                                <table border="0" cellpadding="0" cellspacing="0" class="table" width="100%">
+                                    <tr style="width: 100%;">
+                                        <td class="tableheading" colspan="6">DOWNLOAD RESULT</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdgap"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="vtext">Session</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="sessionFieldWrapper"><select name="sessionField" id="sessionField" class="dropdownlong">
+                                                <option selected="selected" value="0"> -- Select Session -- </option>
+                                                <option value="7">2021 - 2022</option>
+                                                <option value="8">2022 - 2023</option>
+                                                <option value="9">2023 - 2024</option>
+                                                <option value="21">2024 - 2025</option>
+                                                <option value="22">2025 - 2026</option>
+                                            </select></span>*
+                                        </td>
+
+                                        <td class="vtext">Exam Category</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="examCategoryFieldWrapper"><select name="examCategoryField" id="examCategoryField" class="dropdownlong">
+                                                <option selected="selected" value="0">-- Select Exam Category --</option>
+                                            </select></span>*
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="vtext">Degree</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="degreeFieldWrapper"><select name="degreeField" id="degreeField" class="dropdownlong">
+                                                <option selected="selected" value="0">-- Select Degree --</option>
+                                            </select></span>*
+                                        </td>
+                                        <td class="vtext">Semester</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="semesterFieldWrapper"><select name="semesterField" id="semesterField" class="dropdownlong">
+                                                <option selected="selected" value="0">-- Select Semester --</option>
+                                            </select></span>*
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="vtext">Roll No.</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="rollNoFieldWrapper"><input name="rollNoField" type="text" maxlength="15" id="rollNoField" class="textbox" /></span>*
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="vtext">Father's Name</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="fatherNameFieldWrapper"><input name="fatherNameField" type="text" maxlength="50" id="fatherNameField" class="textbox" /></span>
+                                        </td>
+                                        <td class="vtext">Mother's Name</td>
+                                        <td class="colon">:</td>
+                                        <td class="required">
+                                            <span id="motherNameFieldWrapper"><input name="motherNameField" type="text" maxlength="50" id="motherNameField" class="textbox" /></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <span style="font-size: 17px; color: red; font: bold">Note : Enter exact Roll No. and Father's Name to download your PDF.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <span style="font-size: 17px; color: red; font: bold">Note : In case of 1. "UM" - Result will be declared after University descision published.
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6">
+                                            <span style="font-size: 17px; color: red; font: bold">Note : In case of 2. "RW" - Result will be declared after deficiency is cleared.(College needs to contact University regarding this).
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2" style="padding-left: 85px;">
+                                            <span id="downloadButtonWrapper"><input type="submit" name="downloadButton" value="DOWNLOAD" id="downloadButton" class="button-common" cellpadding="0" cellspacing="0" /></span>
+                                            <span id="resetButtonWrapper"><input type="button" name="resetButton" value="RESET" id="resetButton" class="button-common" cellpadding="0" cellspacing="0" /></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdgap" colspan="6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="2">
+                                            <span id="messageLabel" style="display: none;"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" class="tdgap"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <span id="checkLabel" class="HeadingRed"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="loginfooter"><a href="#" class=""></a></div>
+
+        <div id="lightbookmaster" class="grayout" style="display: none; top: 10%; height: auto;">
+            <div class="dvHelp">
+                <div onclick="document.getElementById('lightbookmaster').style.display='none';" class="closebtn">
+                    X
+                </div>
+                <div id="helpPanel">
+                    <div class="helpheading">
+                        Help
+                    </div>
+
+                    The Context sensitive help will be activated after final User Acceptance of respective IUMS Modules.
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script>
+        (function () {
+            const form = document.getElementById("resultDownloadForm");
+            const sessionField = document.getElementById("sessionField");
+            const examCategoryField = document.getElementById("examCategoryField");
+            const degreeField = document.getElementById("degreeField");
+            const semesterField = document.getElementById("semesterField");
+            const downloadButton = document.getElementById("downloadButton");
+            const resetButton = document.getElementById("resetButton");
+            const messageLabel = document.getElementById("messageLabel");
+
+            if (!form || !sessionField || !examCategoryField || !degreeField || !semesterField) {
+                return;
+            }
+
+            const reloadConfirmMessage = "The page that you're looking for used information that you entered. Returning to that page might cause any action you took to be repeated. Do you want to continue?";
+            const skipReloadAlertStorageKey = "rtu_skip_reload_alert_once";
+
+            let rtuCombinations = {};
+
+            function isReloadNavigation() {
+                if (typeof performance === "undefined") {
+                    return false;
+                }
+
+                if (typeof performance.getEntriesByType === "function") {
+                    const navigationEntries = performance.getEntriesByType("navigation");
+                    if (navigationEntries && navigationEntries.length > 0) {
+                        return navigationEntries[0].type === "reload";
+                    }
+                }
+
+                if (performance.navigation) {
+                    return performance.navigation.type === 1;
+                }
+
+                return false;
+            }
+
+            function resetDropdown(selectElement, placeholder) {
+                selectElement.innerHTML = "";
+                const placeholderOption = document.createElement("option");
+                placeholderOption.value = "0";
+                placeholderOption.selected = true;
+                placeholderOption.textContent = placeholder;
+                selectElement.appendChild(placeholderOption);
+            }
+
+            function fillDropdown(selectElement, values) {
+                values.forEach(function (value) {
+                    const option = document.createElement("option");
+                    option.value = value;
+                    option.textContent = value;
+                    selectElement.appendChild(option);
+                });
+            }
+
+            function selectedValue(selectElement) {
+                return selectElement.value === "0" ? "" : selectElement.value;
+            }
+
+            function populateSessions() {
+                resetDropdown(sessionField, " -- Select Session -- ");
+                fillDropdown(sessionField, Object.keys(rtuCombinations));
+            }
+
+            function populateExamCategories() {
+                resetDropdown(examCategoryField, "-- Select Exam Category --");
+                resetDropdown(degreeField, "-- Select Degree --");
+                resetDropdown(semesterField, "-- Select Semester --");
+
+                const session = selectedValue(sessionField);
+                if (!session || !rtuCombinations[session]) {
+                    return;
+                }
+
+                fillDropdown(examCategoryField, Object.keys(rtuCombinations[session]));
+            }
+
+            function populateDegrees() {
+                resetDropdown(degreeField, "-- Select Degree --");
+                resetDropdown(semesterField, "-- Select Semester --");
+
+                const session = selectedValue(sessionField);
+                const examCategory = selectedValue(examCategoryField);
+
+                if (!session || !examCategory || !rtuCombinations[session] || !rtuCombinations[session][examCategory]) {
+                    return;
+                }
+
+                fillDropdown(degreeField, Object.keys(rtuCombinations[session][examCategory]));
+            }
+
+            function populateSemesters() {
+                resetDropdown(semesterField, "-- Select Semester --");
+
+                const session = selectedValue(sessionField);
+                const examCategory = selectedValue(examCategoryField);
+                const degree = selectedValue(degreeField);
+
+                if (!session || !examCategory || !degree || !rtuCombinations[session] || !rtuCombinations[session][examCategory] || !rtuCombinations[session][examCategory][degree]) {
+                    return;
+                }
+
+                fillDropdown(semesterField, rtuCombinations[session][examCategory][degree]);
+            }
+
+            function clearFormFields() {
+                if (form) {
+                    form.reset();
+                }
+                resetDropdown(examCategoryField, "-- Select Exam Category --");
+                resetDropdown(degreeField, "-- Select Degree --");
+                resetDropdown(semesterField, "-- Select Semester --");
+                if (messageLabel) {
+                    messageLabel.textContent = "";
+                }
+            }
+
+            function setMessage(message, color) {
+                if (!messageLabel) {
+                    return;
+                }
+
+                messageLabel.textContent = "";
+            }
+
+            function showPopupAlert(message) {
+                window.alert(message);
+            }
+
+            function shouldSkipReloadAlertOnce() {
+                try {
+                    const skipValue = sessionStorage.getItem(skipReloadAlertStorageKey);
+                    if (skipValue === "1") {
+                        sessionStorage.removeItem(skipReloadAlertStorageKey);
+                        return true;
+                    }
+                } catch (storageError) {
+                    // Ignore storage access failures and keep default behavior.
+                }
+
+                return false;
+            }
+
+            function setSkipReloadAlertOnce() {
+                try {
+                    sessionStorage.setItem(skipReloadAlertStorageKey, "1");
+                } catch (storageError) {
+                    // Ignore storage access failures and keep default behavior.
+                }
+            }
+
+            function buildPayload() {
+                return {
+                    sessionField: selectedValue(sessionField),
+                    examCategoryField: selectedValue(examCategoryField),
+                    degreeField: selectedValue(degreeField),
+                    semesterField: selectedValue(semesterField),
+                    rollNoField: ((document.getElementById("rollNoField") || {}).value || "").trim(),
+                    fatherNameField: ((document.getElementById("fatherNameField") || {}).value || "").trim(),
+                    motherNameField: ((document.getElementById("motherNameField") || {}).value || "").trim()
+                };
+            }
+
+            async function downloadPdf(event) {
+                event.preventDefault();
+
+                const payload = buildPayload();
+                const session = payload.sessionField.trim();
+                const examCategory = payload.examCategoryField.trim();
+                const degree = payload.degreeField.trim();
+                const semester = payload.semesterField.trim();
+                const rollNo = payload.rollNoField.trim();
+                const fatherName = payload.fatherNameField.trim();
+                const motherName = payload.motherNameField.trim();
+
+                if (!session) {
+                    const message = "Session is required !";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                if (!examCategory) {
+                    const message = "Exam Category is required !";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                if (!degree) {
+                    const message = "Degree is required !";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                if (!semester) {
+                    const message = "Semester is required !";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                if (!rollNo) {
+                    const message = "Roll No. is required !";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                if (!fatherName && !motherName) {
+                    const message = "Mother Or Father Name is required !";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                if ((fatherName.length > 0 && fatherName.length <= 3) || (motherName.length > 0 && motherName.length <= 3)) {
+                    const message = "Please enter at least the first 4 characters of your Father  Name!";
+                    showPopupAlert(message);
+                    setMessage(message, "red");
+                    return;
+                }
+
+                try {
+                    if (downloadButton) {
+                        downloadButton.disabled = true;
+                    }
+
+                    setMessage("Preparing gradesheet PDF...", "#0a4f8b");
+
+                    const response = await fetch("/api/download-pdf", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Accept": "application/pdf, application/json"
+                        },
+                        credentials: "same-origin",
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        let errorMessage = "Unable to generate PDF.";
+                        const errorText = await response.text();
+
+                        if (errorText) {
+                            try {
+                                const errorBody = JSON.parse(errorText);
+                                if (errorBody && errorBody.message) {
+                                    errorMessage = errorBody.message;
+                                } else {
+                                    errorMessage = errorText;
+                                }
+                            } catch (parseError) {
+                                errorMessage = errorText;
+                            }
+                        }
+
+                        throw new Error(errorMessage);
+                    }
+
+                    const blob = await response.blob();
+                    const downloadUrl = URL.createObjectURL(blob);
+                    const anchor = document.createElement("a");
+                    const contentDisposition = response.headers.get("Content-Disposition") || "";
+                    const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
+                    const fileName = fileNameMatch ? fileNameMatch[1] : `${rollNo || "gradesheet"}.pdf`;
+
+                    anchor.href = downloadUrl;
+                    anchor.download = fileName;
+                    document.body.appendChild(anchor);
+                    anchor.click();
+                    anchor.remove();
+                    URL.revokeObjectURL(downloadUrl);
+
+                    const successMessage = "PDF downloaded successfully.";
+                    setMessage(successMessage, "green");
+                } catch (error) {
+                    const errorMessage = error.message || "Unable to generate PDF.";
+                    showPopupAlert(errorMessage);
+                    setMessage(errorMessage, "red");
+                } finally {
+                    if (downloadButton) {
+                        downloadButton.disabled = false;
+                    }
+                }
+            }
+
+            async function initializeDropdowns() {
+                try {
+                    const response = await fetch("/rtu_combinations.json", { cache: "no-store" });
+                    if (!response.ok) {
+                        throw new Error("Failed to load rtu_combinations.json");
+                    }
+
+                    rtuCombinations = await response.json();
+                    populateSessions();
+                } catch (error) {
+                    console.error(error);
+                    const dropdownErrorMessage = "Unable to load dropdown data. Please refresh the page.";
+                    showPopupAlert(dropdownErrorMessage);
+                }
+            }
+
+            form.addEventListener("submit", downloadPdf);
+
+            document.addEventListener("keydown", function (event) {
+                const key = String(event.key || "").toLowerCase();
+                const isKeyboardReload =
+                    key === "f5" ||
+                    ((event.ctrlKey || event.metaKey) && key === "r");
+
+                if (!isKeyboardReload) {
+                    return;
+                }
+
+                event.preventDefault();
+                const shouldContinue = window.confirm(reloadConfirmMessage);
+                if (!shouldContinue) {
+                    return;
+                }
+
+                setSkipReloadAlertOnce();
+                window.location.reload();
+            });
+
+            if (!shouldSkipReloadAlertOnce() && isReloadNavigation()) {
+                showPopupAlert(reloadConfirmMessage);
+            }
+
+            sessionField.addEventListener("change", populateExamCategories);
+            examCategoryField.addEventListener("change", populateDegrees);
+            degreeField.addEventListener("change", populateSemesters);
+            if (resetButton) {
+                resetButton.addEventListener("click", clearFormFields);
+            }
+            if (downloadButton) {
+                downloadButton.addEventListener("click", function () {
+                    if (messageLabel) {
+                        messageLabel.textContent = "";
+                    }
+                });
+            }
+
+            initializeDropdowns();
+        })();
+    </script>
+</body>
+</html>
