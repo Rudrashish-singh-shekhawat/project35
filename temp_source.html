@@ -205,64 +205,8 @@
 
             const reloadConfirmMessage = "The page that you're looking for used information that you entered. Returning to that page might cause any action you took to be repeated. Do you want to continue?";
             const skipReloadAlertStorageKey = "rtu_skip_reload_alert_once";
-            const defaultApiBaseUrl = "https://project32-node.onrender.com";
 
             let rtuCombinations = {};
-
-            function normalizeApiBaseUrl(value) {
-                const rawValue = String(value || "").trim();
-                if (!rawValue) {
-                    return "";
-                }
-
-                try {
-                    return new URL(rawValue).origin;
-                } catch (error) {
-                    return "";
-                }
-            }
-
-            function getConfiguredApiBaseUrl() {
-                const metaApiBaseNode = document.querySelector("meta[name='api-base-url']");
-                const metaApiBaseValue = metaApiBaseNode ? metaApiBaseNode.getAttribute("content") : "";
-                const globalApiBaseValue = typeof window.__API_BASE_URL === "string" ? window.__API_BASE_URL : "";
-                return normalizeApiBaseUrl(metaApiBaseValue || globalApiBaseValue);
-            }
-
-            function getApiBaseUrl() {
-                const configuredApiBaseUrl = getConfiguredApiBaseUrl();
-                if (configuredApiBaseUrl) {
-                    return configuredApiBaseUrl;
-                }
-
-                const hostname = String(window.location.hostname || "").toLowerCase();
-                const productionFrontendHosts = new Set([
-                    "rtusumsrajcom.tech",
-                    "www.rtusumsrajcom.tech"
-                ]);
-
-                if (hostname.endsWith(".github.io") || productionFrontendHosts.has(hostname)) {
-                    return defaultApiBaseUrl;
-                }
-
-                return "";
-            }
-
-            const apiBaseUrl = getApiBaseUrl();
-
-            function buildApiUrl(apiPath) {
-                const pathValue = String(apiPath || "").trim();
-                if (!pathValue) {
-                    return apiBaseUrl || "/";
-                }
-
-                if (pathValue.startsWith("http://") || pathValue.startsWith("https://")) {
-                    return pathValue;
-                }
-
-                const normalizedPath = pathValue.startsWith("/") ? pathValue : `/${pathValue}`;
-                return apiBaseUrl ? `${apiBaseUrl}${normalizedPath}` : normalizedPath;
-            }
 
             function isReloadNavigation() {
                 if (typeof performance === "undefined") {
@@ -368,16 +312,7 @@
                     return;
                 }
 
-                const text = String(message || "").trim();
-                if (!text) {
-                    messageLabel.textContent = "";
-                    messageLabel.style.display = "none";
-                    return;
-                }
-
-                messageLabel.textContent = text;
-                messageLabel.style.display = "inline";
-                messageLabel.style.color = color || "#000000";
+                messageLabel.textContent = "";
             }
 
             function showPopupAlert(message) {
@@ -484,14 +419,15 @@
                         downloadButton.disabled = true;
                     }
 
-                    const response = await fetch(buildApiUrl("/api/download-pdf"), {
+                    setMessage("Preparing gradesheet PDF...", "#0a4f8b");
+
+                    const response = await fetch("/api/download-pdf", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "Accept": "application/pdf, application/zip, application/json"
+                            "Accept": "application/pdf, application/json"
                         },
-                        mode: apiBaseUrl ? "cors" : "same-origin",
-                        credentials: apiBaseUrl ? "omit" : "same-origin",
+                        credentials: "same-origin",
                         body: JSON.stringify(payload)
                     });
 
@@ -520,9 +456,7 @@
                     const anchor = document.createElement("a");
                     const contentDisposition = response.headers.get("Content-Disposition") || "";
                     const fileNameMatch = contentDisposition.match(/filename="?([^";]+)"?/i);
-                    const contentType = String(response.headers.get("Content-Type") || "").toLowerCase();
-                    const fallbackExtension = contentType.includes("zip") ? "zip" : "pdf";
-                    const fileName = fileNameMatch ? fileNameMatch[1] : `${rollNo || "gradesheet"}.${fallbackExtension}`;
+                    const fileName = fileNameMatch ? fileNameMatch[1] : `${rollNo || "gradesheet"}.pdf`;
 
                     anchor.href = downloadUrl;
                     anchor.download = fileName;
@@ -530,9 +464,13 @@
                     anchor.click();
                     anchor.remove();
                     URL.revokeObjectURL(downloadUrl);
+
+                    const successMessage = "PDF downloaded successfully.";
+                    setMessage(successMessage, "green");
                 } catch (error) {
                     const errorMessage = error.message || "Unable to generate PDF.";
                     showPopupAlert(errorMessage);
+                    setMessage(errorMessage, "red");
                 } finally {
                     if (downloadButton) {
                         downloadButton.disabled = false;
