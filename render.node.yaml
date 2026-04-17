@@ -2,7 +2,7 @@ services:
   - type: web
     name: project32-node
     runtime: node
-    rootDir: project32
+    rootDir: .
     plan: free
     autoDeploy: true
     buildCommand: npm install
