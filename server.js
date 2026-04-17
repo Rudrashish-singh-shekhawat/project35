@@ -10,6 +10,7 @@ const ROOT_DIR = __dirname;
 const PDFCODE_DIR = path.join(ROOT_DIR, "pdfcode");
 const PDF_CONNECTOR_SCRIPT_PATH = path.join(PDFCODE_DIR, "generate_from_mock_data.py");
 const DEFAULT_PDF_LOGO_PATH = path.join(PDFCODE_DIR, "image", "extracted-000.jpg");
+const PYTHON_PACKAGES_DIR = path.join(ROOT_DIR, "python_packages");
 const ROLL_FIELD_ALIASES = ["rollNo", "University_RollNo", "universityRollNo", "RollNo", "roll_no", "UniversityRollNo"];
 
 const ROUTE_ALIAS = "/Exam/Report/DownloadGradesheet.aspx";
@@ -446,6 +447,22 @@ async function runPythonTemplateGenerator(scriptArgs, options) {
     const pythonFromEnv = (process.env.PYTHON || "").trim();
     const candidates = [];
 
+    const executionEnv = { ...process.env };
+    const pythonPathEntries = [];
+
+    if (fs.existsSync(PYTHON_PACKAGES_DIR)) {
+        pythonPathEntries.push(PYTHON_PACKAGES_DIR);
+    }
+
+    const existingPythonPath = String(executionEnv.PYTHONPATH || "").trim();
+    if (existingPythonPath) {
+        pythonPathEntries.push(existingPythonPath);
+    }
+
+    if (pythonPathEntries.length > 0) {
+        executionEnv.PYTHONPATH = pythonPathEntries.join(path.delimiter);
+    }
+
     if (pythonFromEnv) {
         candidates.push({ command: pythonFromEnv, prefix: [] });
     }
@@ -463,7 +480,10 @@ async function runPythonTemplateGenerator(scriptArgs, options) {
     for (const candidate of candidates) {
         try {
             const args = candidate.prefix.concat(scriptArgs);
-            await runExecFile(candidate.command, args, options);
+            await runExecFile(candidate.command, args, {
+                ...(options || {}),
+                env: executionEnv
+            });
             return;
         } catch (error) {
             lastError = error;
