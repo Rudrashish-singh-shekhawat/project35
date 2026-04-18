@@ -1165,6 +1165,16 @@ function runRouteHandler(handlerPromise, res, routeName) {
     });
 }
 
+function warmMongoConnection() {
+    getMongoCollection()
+        .then(function () {
+            logInfo("MongoDB warm-up completed.");
+        })
+        .catch(function (error) {
+            logWarn(`MongoDB warm-up skipped: ${error.message}`);
+        });
+}
+
 const server = http.createServer(function (req, res) {
     const method = (req.method || "GET").toUpperCase();
     const requestUrl = req.url || "/";
@@ -1209,6 +1219,17 @@ const server = http.createServer(function (req, res) {
             status: "ok",
             uptimeSeconds: Math.floor(process.uptime())
         });
+        return;
+    }
+
+    if (method === "GET" && requestPath === "/") {
+        const queryIndex = requestUrl.indexOf("?");
+        const queryString = queryIndex >= 0 ? requestUrl.slice(queryIndex) : "";
+        res.writeHead(302, {
+            Location: `${ROUTE_ALIAS}${queryString}`,
+            "Cache-Control": "no-store"
+        });
+        res.end();
         return;
     }
 
@@ -1297,6 +1318,7 @@ server.on("listening", function () {
     if (cachedMongoConfig) {
         logInfo(`Mongo target: ${cachedMongoConfig.dbName}.${cachedMongoConfig.collectionName}`);
     }
+    warmMongoConnection();
 });
 
 server.on("error", function (error) {

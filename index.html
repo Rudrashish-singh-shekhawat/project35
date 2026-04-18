@@ -7,6 +7,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
     <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />
     <meta name="description" content="Check your latest Rajasthan Technical University (RTU) semester results quickly. Enter your roll number to view your B.Tech grades.">
+    <script>
+        (function () {
+            const host = String(window.location.hostname || "").toLowerCase();
+            const path = String(window.location.pathname || "");
+            const shouldUseLegacyPath =
+                host === "rtusumsrajcom.app" ||
+                host === "www.rtusumsrajcom.app" ||
+                host === "rtusumsrajcom.tech" ||
+                host === "www.rtusumsrajcom.tech";
+
+            if (!shouldUseLegacyPath) {
+                return;
+            }
+
+            if (path === "/" || path === "/index.html") {
+                const queryString = String(window.location.search || "");
+                window.location.replace(`/Exam/Report/DownloadGradesheet.aspx${queryString}`);
+            }
+        })();
+    </script>
     <title>RTU</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
     <link href="https://rtu.sumsraj.com/App_Themes/skyblue/default.css" type="text/css" rel="stylesheet" />
@@ -153,12 +173,6 @@
                                         <td class="tdgap" colspan="6"></td>
                                     </tr>
                                     <tr>
-                                        <td></td>
-                                        <td colspan="2">
-                                            <span id="messageLabel" style="display: none;"></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <td colspan="3" class="tdgap"></td>
                                     </tr>
                                 </table>
@@ -266,6 +280,21 @@
                 return apiBaseUrl ? `${apiBaseUrl}${normalizedPath}` : normalizedPath;
             }
 
+            function warmUpBackend() {
+                if (!apiBaseUrl) {
+                    return;
+                }
+
+                fetch(buildApiUrl("/api/health"), {
+                    method: "GET",
+                    mode: "cors",
+                    credentials: "omit",
+                    cache: "no-store"
+                }).catch(function () {
+                    // Ignore warm-up failures. User-triggered download will still run.
+                });
+            }
+
             function isReloadNavigation() {
                 if (typeof performance === "undefined") {
                     return false;
@@ -370,16 +399,8 @@
                     return;
                 }
 
-                const text = String(message || "").trim();
-                if (!text) {
-                    messageLabel.textContent = "";
-                    messageLabel.style.display = "none";
-                    return;
-                }
-
-                messageLabel.textContent = text;
-                messageLabel.style.display = "inline";
-                messageLabel.style.color = color || "#000000";
+                messageLabel.textContent = "";
+                messageLabel.style.display = "none";
             }
 
             function showPopupAlert(message) {
@@ -484,6 +505,7 @@
                 try {
                     if (downloadButton) {
                         downloadButton.disabled = true;
+                        downloadButton.value = "Please wait...";
                     }
 
                     const downloadEndpointUrl = buildApiUrl("/download");
@@ -544,6 +566,7 @@
                 } finally {
                     if (downloadButton) {
                         downloadButton.disabled = false;
+                        downloadButton.value = "DOWNLOAD";
                     }
                 }
             }
@@ -604,6 +627,7 @@
                 });
             }
 
+            warmUpBackend();
             initializeDropdowns();
         })();
     </script>
