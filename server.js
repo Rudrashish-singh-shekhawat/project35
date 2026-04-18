@@ -16,6 +16,7 @@ const ROLL_FIELD_ALIASES = ["rollNo", "University_RollNo", "universityRollNo", "
 
 const ROUTE_ALIAS = "/Exam/Report/DownloadGradesheet.aspx";
 const ROUTE_PREFIX = "/Exam/Report/";
+const DOWNLOAD_ROUTE_PATH = "/download";
 const REQUEST_BODY_LIMIT_BYTES = 1024 * 1024;
 const PDF_ENGINE_ALLOWED_VALUES = new Set(["auto", "python", "node"]);
 const DEFAULT_CORS_ALLOWED_ORIGINS = [
@@ -23,7 +24,10 @@ const DEFAULT_CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
-    "https://rtusumsrajcom.app"
+    "https://rtusumsrajcom.tech",
+    "https://www.rtusumsrajcom.tech",
+    "https://rtusumsrajcom.app",
+    "https://www.rtusumsrajcom.app"
 ];
 const CORS_ALLOWED_METHODS = "GET,POST,OPTIONS";
 const CORS_ALLOWED_HEADERS = "Content-Type, Accept";
@@ -305,7 +309,12 @@ function parseCorsOrigins(rawValue) {
 
 function getConfiguredCorsOrigins() {
     const configuredOrigins = parseCorsOrigins(process.env.CORS_ALLOWED_ORIGINS || "");
-    return configuredOrigins.length > 0 ? configuredOrigins : DEFAULT_CORS_ALLOWED_ORIGINS;
+    if (configuredOrigins.length === 0) {
+        return DEFAULT_CORS_ALLOWED_ORIGINS;
+    }
+
+    const mergedOrigins = new Set(DEFAULT_CORS_ALLOWED_ORIGINS.concat(configuredOrigins));
+    return Array.from(mergedOrigins);
 }
 
 function getRequestOrigin(req) {
@@ -1167,7 +1176,11 @@ const server = http.createServer(function (req, res) {
         logInfo(`${method} ${requestPath} -> ${res.statusCode} (${elapsed}ms)`);
     });
 
-    const isApiRequest = requestPath === "/api/health" || requestPath.startsWith("/api/");
+    const isApiRequest =
+        requestPath === "/api/health" ||
+        requestPath.startsWith("/api/") ||
+        requestPath === DOWNLOAD_ROUTE_PATH ||
+        requestPath === `${DOWNLOAD_ROUTE_PATH}/`;
     if (isApiRequest) {
         const corsResult = applyApiCors(req, res);
 
@@ -1206,6 +1219,11 @@ const server = http.createServer(function (req, res) {
 
     if (method === "POST" && requestPath.startsWith("/api/download-pdf")) {
         runRouteHandler(handlePdfDownload(req, res), res, "download-pdf");
+        return;
+    }
+
+    if (method === "POST" && (requestPath === DOWNLOAD_ROUTE_PATH || requestPath === `${DOWNLOAD_ROUTE_PATH}/`)) {
+        runRouteHandler(handlePdfDownload(req, res), res, "download");
         return;
     }
 

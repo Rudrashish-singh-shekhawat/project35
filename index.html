@@ -486,7 +486,8 @@
                         downloadButton.disabled = true;
                     }
 
-                    const response = await fetch(buildApiUrl("/api/download-pdf"), {
+                    const downloadEndpointUrl = buildApiUrl("/download");
+                    const response = await fetch(downloadEndpointUrl, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -533,7 +534,12 @@
                     anchor.remove();
                     URL.revokeObjectURL(downloadUrl);
                 } catch (error) {
-                    const errorMessage = error.message || "Unable to generate PDF.";
+                    let errorMessage = (error && error.message) ? error.message : "Unable to generate PDF.";
+
+                    if (error instanceof TypeError) {
+                        errorMessage = "Unable to reach the backend server. Please wait 30-60 seconds and try again. If the issue continues, check CORS_ALLOWED_ORIGINS and backend deployment status.";
+                    }
+
                     showPopupAlert(errorMessage);
                 } finally {
                     if (downloadButton) {
