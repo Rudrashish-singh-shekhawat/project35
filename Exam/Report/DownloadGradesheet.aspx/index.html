@@ -546,7 +546,6 @@
                 try {
                     if (downloadButton) {
                         downloadButton.disabled = true;
-                        downloadButton.value = "Please wait...";
                     }
 
                     const downloadEndpointUrl = buildApiUrl("/download");
@@ -607,7 +606,6 @@
                 } finally {
                     if (downloadButton) {
                         downloadButton.disabled = false;
-                        downloadButton.value = "DOWNLOAD";
                     }
                 }
             }
