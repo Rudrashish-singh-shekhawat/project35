@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+        (function () {
+            const target = "/";
+            if (window.location.pathname !== target) {
+                window.location.replace(target);
+            }
+        })();
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2d3d;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        a {
+            color: #005b96;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Page moved</h1>
+        <p>Redirecting to the RTU Result Download Portal.</p>
+        <p>If not redirected, open <a href="/">home page</a>.</p>
+    </main>
+</body>
+</html>
