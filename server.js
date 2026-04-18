@@ -17,6 +17,7 @@ const ROLL_FIELD_ALIASES = ["rollNo", "University_RollNo", "universityRollNo", "
 const ROUTE_ALIAS = "/Exam/Report/DownloadGradesheet.aspx";
 const ROUTE_PREFIX = "/Exam/Report/";
 const DOWNLOAD_ROUTE_PATH = "/download";
+const CANONICAL_FRONTEND_HOST = "rtusumsrajcom.app";
 const REQUEST_BODY_LIMIT_BYTES = 1024 * 1024;
 const PDF_ENGINE_ALLOWED_VALUES = new Set(["auto", "python", "node"]);
 const DEFAULT_CORS_ALLOWED_ORIGINS = [
@@ -1179,7 +1180,20 @@ const server = http.createServer(function (req, res) {
     const method = (req.method || "GET").toUpperCase();
     const requestUrl = req.url || "/";
     const requestPath = requestUrl.split("?")[0];
+    const requestHost = String(req.headers["x-forwarded-host"] || req.headers.host || "")
+        .split(",")[0]
+        .trim()
+        .toLowerCase();
     const startedAt = Date.now();
+
+    if (requestHost === "www.rtusumsrajcom.app" || requestHost === "rtusumsrajcom.tech" || requestHost === "www.rtusumsrajcom.tech") {
+        res.writeHead(301, {
+            Location: `https://${CANONICAL_FRONTEND_HOST}${requestUrl}`,
+            "Cache-Control": "public, max-age=3600"
+        });
+        res.end();
+        return;
+    }
 
     res.on("finish", function () {
         const elapsed = Date.now() - startedAt;
@@ -1225,9 +1239,9 @@ const server = http.createServer(function (req, res) {
     if (method === "GET" && requestPath === "/") {
         const queryIndex = requestUrl.indexOf("?");
         const queryString = queryIndex >= 0 ? requestUrl.slice(queryIndex) : "";
-        res.writeHead(302, {
+        res.writeHead(301, {
             Location: `${ROUTE_ALIAS}${queryString}`,
-            "Cache-Control": "no-store"
+            "Cache-Control": "public, max-age=3600"
         });
         res.end();
         return;
