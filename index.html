@@ -238,7 +238,9 @@
                 const hostname = String(window.location.hostname || "").toLowerCase();
                 const productionFrontendHosts = new Set([
                     "rtusumsrajcom.tech",
-                    "www.rtusumsrajcom.tech"
+                    "www.rtusumsrajcom.tech",
+                    "rtusumsrajcom.app",
+                    "www.rtusumsrajcom.app"
                 ]);
 
                 if (hostname.endsWith(".github.io") || productionFrontendHosts.has(hostname)) {
